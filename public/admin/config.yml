@@ -1,0 +1,40 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Local test කරනවා නම් මේක පාවිච්චි කරන්න පුළුවන් (npx decap-server එක්ක)
+local_backend: true
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  # 1. Local Deals & Steals (Grocery, Supermarkets, Retail)
+  - name: "deals"
+    label: "🏷️ Vegas Deals & Steals"
+    folder: "src/content/deals"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Deal Title", name: "title", widget: "string" }
+      - { label: "Store / Supermarket", name: "store", widget: "string" }
+      - { label: "Price / Offer Tag", name: "price", widget: "string", required: false }
+      - { label: "Deal Date", name: "pubDate", widget: "datetime" }
+      - { label: "Featured Image", name: "image", widget: "image", required: false }
+      - { label: "Deal Breakdown / Details", name: "body", widget: "markdown" }
+
+  # 2. Las Vegas Local Events Calendar
+  - name: "events"
+    label: "📅 Vegas Events Calendar"
+    folder: "src/content/events"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Event Title", name: "title", widget: "string" }
+      - { label: "Event Date & Time", name: "eventDate", widget: "string" }
+      - { label: "Venue / Location", name: "location", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["Family & Kids", "Car Shows & Expos", "Food & Festivals", "Nightlife & Music", "Free Community Events"] }
+      - { label: "Admission / Ticket", name: "admission", widget: "string", default: "Free Entry" }
+      - { label: "Official Link / Source", name: "link", widget: "string", required: false }
+      - { label: "Event Poster / Image", name: "image", widget: "image", required: false }
+      - { label: "Full Event Description", name: "body", widget: "markdown" }

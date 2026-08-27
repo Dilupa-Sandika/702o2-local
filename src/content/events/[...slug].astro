@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map(event => ({
+    params: { slug: event.id },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+---
+
+<Layout title={`${event.data.title} | Vegas Events`}>
+  <article class="max-w-4xl mx-auto py-8">
+    <a href="/events" class="text-xs font-bold text-slate-500 hover:text-indigo-600 mb-6 inline-flex items-center gap-1">
+      ← Back to All Events
+    </a>
+
+    {event.data.image && (
+      <div class="h-72 sm:h-96 w-full rounded-3xl overflow-hidden bg-slate-100 mb-8 border border-slate-200">
+        <img src={event.data.image} alt={event.data.title} class="w-full h-full object-cover" />
+      </div>
+    )}
+
+    <div class="flex flex-wrap items-center gap-3 mb-4">
+      <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+        {event.data.category}
+      </span>
+      {event.data.admission && (
+        <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+          {event.data.admission}
+        </span>
+      )}
+    </div>
+
+    <h1 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight mb-6">
+      {event.data.title}
+    </h1>
+
+    <div class="p-5 rounded-2xl bg-slate-100 border border-slate-200 grid sm:grid-cols-2 gap-4 mb-8 text-sm">
+      <div class="flex items-center gap-2.5 font-semibold text-slate-800">
+        <span class="text-lg">📅</span> {event.data.eventDate}
+      </div>
+      <div class="flex items-center gap-2.5 font-semibold text-slate-800">
+        <span class="text-lg">📍</span> {event.data.location}
+      </div>
+    </div>
+
+    <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base space-y-4 mb-8">
+      <Content />
+    </div>
+
+    {event.data.link && (
+      <div class="pt-6 border-t border-slate-200">
+        <a href={event.data.link} target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-sm shadow-md transition">
+          Visit Official Event / Buy Tickets →
+        </a>
+      </div>
+    )}
+  </article>
+</Layout>

@@ -1,0 +1,155 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const events = (await getCollection('events')).slice(0, 3);
+const deals = await getCollection('deals');
+---
+
+<Layout title="702 Local — Vegas Events Calendar, Deals & Event Services">
+  
+  <!-- HERO: Events & Valley Life Focus -->
+  <section class="text-center pt-4 pb-12">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-xs font-bold text-indigo-800 mb-6">
+      <span class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"></span>
+      What's Happening in Las Vegas, Henderson & Summerlin
+    </div>
+
+    <h1 class="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-[1.1] max-w-4xl mx-auto">
+      Discover Valley Events, <br />
+      <span class="bg-gradient-to-r from-indigo-600 via-rose-500 to-amber-500 bg-clip-text text-transparent">
+        Local Steals & Celebration Services
+      </span>
+    </h1>
+
+    <p class="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg mt-5 leading-relaxed">
+      Your weekend event guide, supermarket & retail savings, plus on-demand kids birthday setups and event photography.
+    </p>
+
+    <!-- 2 Main Business Service Callouts -->
+    <div class="grid sm:grid-cols-2 gap-4 max-w-4xl mx-auto mt-8">
+      <a href="/party-rentals" class="p-5 rounded-2xl bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-200 text-left hover:border-rose-400 transition shadow-xs group">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-black uppercase text-rose-600">Vegas Party Pixies</span>
+          <span class="text-xs font-bold bg-white px-2.5 py-1 rounded-full text-rose-600 shadow-xs">From $199</span>
+        </div>
+        <h3 class="text-lg font-black text-slate-900 mt-2 group-hover:text-rose-600 transition">🎈 Toddler & Kids Birthday Setups</h3>
+        <p class="text-xs text-slate-600 mt-1">Backdrops, organic balloons, plus 15–40 kids tables & chairs delivered to your venue.</p>
+      </a>
+
+      <a href="/media" class="p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white text-left hover:opacity-95 transition shadow-xs group">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-black uppercase text-amber-400">Media & Photography</span>
+          <span class="text-xs font-bold bg-slate-800 text-amber-300 px-2.5 py-1 rounded-full border border-slate-700">From $199 / 2-Hrs</span>
+        </div>
+        <h3 class="text-lg font-black text-white mt-2 group-hover:text-amber-300 transition">📸 Event & Auto Coverage</h3>
+        <p class="text-xs text-slate-300 mt-1">High-res photography and 4K reels for car meets, private birthdays, and expos.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- SECTION 1: Featured Weekend Events -->
+  <section class="py-10 border-t border-slate-200">
+    <div class="flex items-center justify-between pb-6 border-b border-slate-200">
+      <div>
+        <div class="flex items-center gap-2">
+          <h2 class="text-2xl font-black text-slate-900">📅 Upcoming Valley Events</h2>
+          <span class="text-xs font-black px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800">Featured</span>
+        </div>
+        <p class="text-xs text-slate-500 mt-1">Car meets, festivals, and community markets this week.</p>
+      </div>
+      <a href="/events" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
+        View All Events →
+      </a>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      {events.map(event => (
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group">
+          <div>
+            <a href={`/events/${event.id}`}>
+              {event.data.image && (
+                <div class="h-44 bg-slate-100 overflow-hidden">
+                  <img src={event.data.image} alt={event.data.title} class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                </div>
+              )}
+            </a>
+            <div class="p-5">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+                  {event.data.category}
+                </span>
+                {event.data.admission && (
+                  <span class="text-xs font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                    {event.data.admission}
+                  </span>
+                )}
+              </div>
+              <a href={`/events/${event.id}`}>
+                <h3 class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition line-clamp-1">
+                  {event.data.title}
+                </h3>
+              </a>
+              <p class="text-xs text-slate-600 mt-2 font-medium">📅 {event.data.eventDate}</p>
+              <p class="text-xs text-slate-500 mt-1 line-clamp-1">📍 {event.data.location}</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <a href={`/events/${event.id}`} class="block text-center w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl transition">
+              Event Details →
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- SECTION 2: Deals & Steals (Grocery, Walmart, Amazon) -->
+  <section id="deals" class="py-12 border-t border-slate-200">
+    <div class="flex items-center justify-between pb-6 border-b border-slate-200">
+      <div>
+        <div class="flex items-center gap-2">
+          <h2 class="text-2xl font-black text-slate-900">🏷️ Vegas Deals & Steals</h2>
+          <span class="text-xs font-black px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800">Weekly Finds</span>
+        </div>
+        <p class="text-xs text-slate-500 mt-1">Supermarkets, local retail markdowns, and verified discounts.</p>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      {deals.map(deal => (
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition overflow-hidden flex flex-col justify-between">
+          <div>
+            {deal.data.image && (
+              <div class="h-44 bg-slate-100 overflow-hidden">
+                <img src={deal.data.image} alt={deal.data.title} class="w-full h-full object-cover" />
+              </div>
+            )}
+            <div class="p-5">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+                  {deal.data.store}
+                </span>
+                {deal.data.price && (
+                  <span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">
+                    {deal.data.price}
+                  </span>
+                )}
+              </div>
+              <h3 class="text-base font-bold text-slate-900">
+                {deal.data.title}
+              </h3>
+              <div class="mt-2 text-xs text-slate-600 leading-relaxed whitespace-pre-line">
+                {deal.body}
+              </div>
+            </div>
+          </div>
+          <div class="p-5 pt-0 border-t border-slate-100 mt-3">
+            <span class="text-[10px] text-slate-400 font-bold uppercase">📍 Verified Vegas Deal</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+</Layout>
