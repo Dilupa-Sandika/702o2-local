@@ -16,7 +16,7 @@ const { Content } = await render(deal);
 
 <Layout title={`${deal.data.title} | Vegas Deals`}>
   <article class="max-w-3xl mx-auto py-8">
-    <a href="/#deals" class="text-xs font-bold text-slate-500 hover:text-amber-600 mb-6 inline-flex items-center gap-1">
+    <a href="/deals" class="text-xs font-bold text-slate-500 hover:text-amber-600 mb-6 inline-flex items-center gap-1">
       ← Back to Vegas Deals
     </a>
 
@@ -45,12 +45,19 @@ const { Content } = await render(deal);
       <Content />
     </div>
 
-    {deal.data.link && (
-      <div class="pt-6 border-t border-slate-200">
-        <a href={deal.data.link} target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-sm shadow-md transition">
-          View Circular / Claim Deal →
+    <!-- Action Buttons -->
+    <div class="flex flex-wrap gap-4 pt-6 border-t border-slate-200">
+      {deal.data.circularPdf && (
+        <a href={deal.data.circularPdf} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3.5 bg-rose-600 hover:bg-rose-700 text-white font-black rounded-xl text-sm shadow-md transition">
+          📄 View Weekly Circular (PDF)
         </a>
-      </div>
-    )}
+      )}
+      
+      {deal.data.link && (
+        <a href={deal.data.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-sm shadow-md transition">
+          Official Store Circular →
+        </a>
+      )}
+    </div>
   </article>
 </Layout>

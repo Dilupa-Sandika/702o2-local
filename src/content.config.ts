@@ -49,6 +49,8 @@ const deals = defineCollection({
     validUntil: z.coerce.date().optional(),
     price: z.string().optional(),
     image: z.string().optional(),
+    circularPdf: z.string().optional(),
+    circularPages: z.array(z.object({ image: z.string() })).optional(),
     link: z.string().optional(),
   }),
 });
@@ -61,6 +63,7 @@ const guides = defineCollection({
     pubDate: z.coerce.date(),
     image: z.string().optional(),
     excerpt: z.string(),
+    seoKeywords: z.string().optional(),
   }),
 });
 
@@ -72,7 +75,15 @@ const recipes = defineCollection({
     cost: z.string().optional(),
     pubDate: z.coerce.date(),
     image: z.string().optional(),
+    seoKeywords: z.string().optional(),
   }),
 });
 
-export const collections = { events, galleries, mediaPackages, deals, guides, recipes };
+export const collections = {
+  events,
+  galleries,
+  mediaPackages,
+  deals,
+  guides,
+  recipes,
+};

@@ -47,15 +47,15 @@ collections:
         field: { label: "Photo", name: "image", widget: "image" }
       - { label: "Story / Location Notes", name: "body", widget: "markdown" }
 
-  # 3. Media Photography Packages (NEW DYNAMIC)
+  # 3. Media Photography Packages
   - name: "mediaPackages"
     label: "📸 Media Photography Packages"
     folder: "src/content/media-packages"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Package Title", name: "title", widget: "string", placeholder: "e.g. 2-Hour Event Coverage" }
-      - { label: "Price / Tag", name: "price", widget: "string", placeholder: "e.g. $199 or Custom" }
+      - { label: "Package Title", name: "title", widget: "string" }
+      - { label: "Price / Tag", name: "price", widget: "string" }
       - { label: "Display Order", name: "order", widget: "number", default: 1 }
       - { label: "Highlight as Most Popular?", name: "isFeatured", widget: "boolean", default: false }
       - { label: "Short Description", name: "description", widget: "string" }
@@ -65,7 +65,7 @@ collections:
         field: { label: "Feature item", name: "feature", widget: "string" }
       - { label: "Button Text", name: "buttonText", widget: "string", default: "Book Now →" }
 
-  # 4. Deals & Steals
+  # 4. Deals & Steals (With Circular PDF Viewer)
   - name: "deals"
     label: "🏷️ Vegas Deals & Steals"
     folder: "src/content/deals"
@@ -77,8 +77,14 @@ collections:
       - { label: "Deal Date", name: "pubDate", widget: "datetime" }
       - { label: "Valid Until Date", name: "validUntil", widget: "datetime", required: false }
       - { label: "Price / Offer Tag", name: "price", widget: "string", required: false }
-      - { label: "Featured Image", name: "image", widget: "image", required: false }
-      - { label: "Deal Link / Affiliate URL", name: "link", widget: "string", required: false }
+      - { label: "Featured Cover Image", name: "image", widget: "image", required: false }
+      - { label: "Weekly Circular PDF (Upload)", name: "circularPdf", widget: "file", required: false }
+      - label: "Additional Circular Pages (Images)"
+        name: "circularPages"
+        widget: "list"
+        required: false
+        field: { label: "Circular Page Image", name: "image", widget: "image" }
+      - { label: "Official Store Link", name: "link", widget: "string", required: false }
       - { label: "Deal Breakdown / Details", name: "body", widget: "markdown" }
 
   # 5. Local Guides & Consumer Reports
@@ -93,6 +99,7 @@ collections:
       - { label: "Published Date", name: "pubDate", widget: "datetime" }
       - { label: "Cover Image", name: "image", widget: "image", required: false }
       - { label: "Short Excerpt", name: "excerpt", widget: "string" }
+      - { label: "SEO Keywords", name: "seoKeywords", widget: "string", required: false }
       - { label: "Full Article Content", name: "body", widget: "markdown" }
 
   # 6. Budget Recipes & Kitchen Hacks
@@ -107,4 +114,5 @@ collections:
       - { label: "Cost Per Serving", name: "cost", widget: "string", default: "Under $5" }
       - { label: "Published Date", name: "pubDate", widget: "datetime" }
       - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "SEO Keywords", name: "seoKeywords", widget: "string", required: false }
       - { label: "Ingredients & Instructions", name: "body", widget: "markdown" }
