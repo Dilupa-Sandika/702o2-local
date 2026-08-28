@@ -7,7 +7,7 @@ media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  # 1. Events Calendar
+  # 1. 📅 EVENTS CALENDAR
   - name: "events"
     label: "📅 Vegas Events Calendar"
     folder: "src/content/events"
@@ -15,44 +15,51 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Event Title", name: "title", widget: "string" }
-      - { label: "Event Date & Time", name: "eventDate", widget: "string" }
-      - { label: "Venue / Location", name: "location", widget: "string" }
+      - label: "Event Schedule / Timings (Multi-Day or Single)"
+        name: "schedules"
+        widget: "list"
+        summary: "{{fields.day}}: {{fields.time}}"
+        fields:
+          - { label: "Day / Date Label", name: "day", widget: "string", placeholder: "e.g. Friday, Aug 28 or Aug 28 - 30" }
+          - { label: "Hours / Time Window", name: "time", widget: "string", placeholder: "e.g. 3:00 PM – 8:00 PM" }
+      - { label: "Venue Name / Area", name: "location", widget: "string", placeholder: "e.g. Downtown Summerlin Pavilion" }
+      - { label: "Google Maps Link", name: "mapLink", widget: "string", required: false, placeholder: "Paste Google Maps location URL" }
       - { label: "Category", name: "category", widget: "select", options: ["Family & Kids", "Car Shows & Expos", "Food & Festivals", "Nightlife & Music", "Free Community Events"] }
-      - { label: "Admission / Ticket", name: "admission", widget: "string", default: "Free Entry" }
-      - { label: "Official Link / Tickets", name: "link", widget: "string", required: false }
-      - { label: "Event Poster / Image", name: "image", widget: "image", required: false }
-      - { label: "Full Event Description", name: "body", widget: "markdown" }
+      - { label: "Admission / Ticket Cost", name: "admission", widget: "string", default: "Free Entry" }
+      - { label: "Official Ticket / RSVP Link", name: "link", widget: "string", required: false }
+      - { label: "Cover Poster", name: "image", widget: "image", required: false }
+      - label: "Event Photo Gallery"
+        name: "gallery"
+        widget: "list"
+        required: false
+        field: { label: "Photo", name: "image", widget: "image" }
+      - { label: "YouTube Highlight Video URL", name: "videoUrl", widget: "string", required: false }
+      - { label: "Full Description & Details", name: "body", widget: "markdown" }
 
-  # 2. Event & Auto Photo Galleries (NEW)
-  - name: "galleries"
-    label: "📸 Event & Auto Galleries"
-    folder: "src/content/galleries"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - { label: "Gallery Title", name: "title", widget: "string" }
-      - { label: "Event Date", name: "pubDate", widget: "datetime" }
-      - { label: "Category", name: "category", widget: "select", options: ["Car Meets & Automotive", "Kids Parties & Backdrops", "Community Festivals"] }
-      - { label: "Cover Photo", name: "coverImage", widget: "image" }
-      - { label: "Photo Set (Upload Multiple)", name: "photos", widget: "list", field: { label: "Photo", name: "image", widget: "image" } }
-      - { label: "Short Story / Event Highlights", name: "body", widget: "markdown" }
-
-  # 3. Deals & Steals
+  # 2. 🏷️ VEGAS DEALS & STEALS
   - name: "deals"
     label: "🏷️ Vegas Deals & Steals"
     folder: "src/content/deals"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "Deal Title", name: "title", widget: "string" }
-      - { label: "Store / Platform", name: "store", widget: "string" }
-      - { label: "Price / Offer Tag", name: "price", widget: "string", required: false }
-      - { label: "Deal Date", name: "pubDate", widget: "datetime" }
-      - { label: "Deal Link / Affiliate URL", name: "link", widget: "string", required: false }
-      - { label: "Featured Image", name: "image", widget: "image", required: false }
-      - { label: "Deal Breakdown / Details", name: "body", widget: "markdown" }
+      - { label: "Deal Headline", name: "title", widget: "string" }
+      - { label: "Store / Supermarket", name: "store", widget: "select", options: ["La Bonita", "Mariana's Supermarket", "Smith's", "Walmart", "Trader Joe's", "Costco", "Amazon", "Local Retail / Other"] }
+      - { label: "Custom Store Name (If Other)", name: "customStore", widget: "string", required: false }
+      - { label: "Deal Start Date", name: "pubDate", widget: "datetime" }
+      - { label: "Valid Until Date", name: "validUntil", widget: "datetime", required: false }
+      - { label: "Price / Offer Tag (Optional)", name: "price", widget: "string", required: false, placeholder: "e.g. Under $10 / 50% Off" }
+      - { label: "Featured Cover Image", name: "image", widget: "image", required: false }
+      - label: "Additional Deal Images / Circular Pages"
+        name: "circularPages"
+        widget: "list"
+        required: false
+        field: { label: "Image", name: "image", widget: "image" }
+      - { label: "Weekly Circular PDF (Upload)", name: "circularPdf", widget: "file", required: false }
+      - { label: "Store / Affiliate Link", name: "link", widget: "string", required: false }
+      - { label: "Deal Breakdown / Highlights", name: "body", widget: "markdown" }
 
-  # 4. Local Guides & Consumer Reports
+  # 3. 📖 GUIDES & CONSUMER REPORTS
   - name: "guides"
     label: "📖 Guides & Consumer Reports"
     folder: "src/content/guides"
@@ -64,9 +71,12 @@ collections:
       - { label: "Published Date", name: "pubDate", widget: "datetime" }
       - { label: "Cover Image", name: "image", widget: "image", required: false }
       - { label: "Short Excerpt", name: "excerpt", widget: "string" }
-      - { label: "Full Article Content (Markdown / Links)", name: "body", widget: "markdown" }
+      - { label: "SEO Meta Description", name: "seoDescription", widget: "string", required: false }
+      - { label: "SEO Keywords (Comma-separated)", name: "seoKeywords", widget: "string", required: false }
+      - { label: "Featured YouTube Video URL", name: "videoUrl", widget: "string", required: false }
+      - { label: "Full Article Content (Supports Markdown Links & Banners)", name: "body", widget: "markdown" }
 
-  # 5. Budget Recipes & Kitchen Hacks
+  # 4. 🍳 BUDGET RECIPES & KITCHEN HACKS
   - name: "recipes"
     label: "🍳 Budget Recipes & Kitchen"
     folder: "src/content/recipes"
@@ -78,4 +88,6 @@ collections:
       - { label: "Cost Per Serving", name: "cost", widget: "string", default: "Under $5" }
       - { label: "Published Date", name: "pubDate", widget: "datetime" }
       - { label: "Cover Image", name: "image", widget: "image", required: false }
-      - { label: "Ingredients & Instructions", name: "body", widget: "markdown" }
+      - { label: "SEO Keywords", name: "seoKeywords", widget: "string", required: false }
+      - { label: "YouTube Recipe / Cooking Video URL", name: "videoUrl", widget: "string", required: false }
+      - { label: "Ingredients & Instructions (Markdown)", name: "body", widget: "markdown" }

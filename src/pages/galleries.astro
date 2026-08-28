@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const galleries = (await getCollection('galleries')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout title="Vegas Event & Auto Photo Galleries — 702 Local">
+  <section class="text-center pt-4 pb-10">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-bold text-slate-800 mb-6">
+      <span>📸</span> Local Meet Coverage & High-Res Stills
+    </div>
+
+    <h1 class="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-[1.1] max-w-4xl mx-auto">
+      Event Coverage & <br />
+      <span class="bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-600 bg-clip-text text-transparent">
+        Automotive Photo Galleries
+      </span>
+    </h1>
+
+    <p class="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg mt-5 leading-relaxed">
+      Browse recent photo sets from car meets, toddler birthday setups, festivals, and community celebrations across the Las Vegas valley.
+    </p>
+  </section>
+
+  <section class="py-8 border-t border-slate-200">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {galleries.map(gallery => (
+        <article class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition overflow-hidden flex flex-col justify-between group">
+          <div>
+            <a href={`/galleries/${gallery.id}`}>
+              <div class="h-56 overflow-hidden bg-slate-100">
+                <img src={gallery.data.coverImage} alt={gallery.data.title} class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+              </div>
+            </a>
+            <div class="p-6">
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700">
+                  {gallery.data.category}
+                </span>
+                <span class="text-xs font-semibold text-slate-400">
+                  {gallery.data.photos ? `${gallery.data.photos.length} Photos` : 'Album'}
+                </span>
+              </div>
+              <a href={`/galleries/${gallery.id}`}>
+                <h3 class="text-xl font-bold text-slate-900 group-hover:text-amber-600 transition">
+                  {gallery.data.title}
+                </h3>
+              </a>
+            </div>
+          </div>
+          <div class="p-6 pt-0 border-t border-slate-100 mt-4">
+            <a href={`/galleries/${gallery.id}`} class="text-xs font-bold text-amber-600 hover:underline inline-block pt-2">
+              View Full Gallery 📸 →
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

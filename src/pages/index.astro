@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 
 const events = (await getCollection('events')).slice(0, 3);
 const deals = (await getCollection('deals')).slice(0, 3);
+const galleries = (await getCollection('galleries')).slice(0, 3);
 const guides = (await getCollection('guides')).slice(0, 3);
 const recipes = (await getCollection('recipes')).slice(0, 3);
 
@@ -126,7 +127,9 @@ const slides = [
               <a href={`/events/${event.id}`}>
                 <h3 class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition">{event.data.title}</h3>
               </a>
-              <p class="text-xs text-slate-600 mt-2 font-medium">📅 {event.data.eventDate}</p>
+              {event.data.eventDate && (
+                <p class="text-xs text-slate-600 mt-2 font-medium">📅 {event.data.eventDate}</p>
+              )}
               <p class="text-xs text-slate-500 mt-1 line-clamp-1">📍 {event.data.location}</p>
             </div>
           </div>
@@ -193,7 +196,50 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 3: 🎈 VEGAS PARTY PIXIES -->
+  <!-- SECTION 3: 🖼️ EVENT & AUTO GALLERIES -->
+  <section id="galleries" class="py-12 border-t border-slate-200 scroll-mt-20">
+    <div class="flex items-center justify-between pb-6 border-b border-slate-200">
+      <div>
+        <div class="flex items-center gap-2">
+          <h2 class="text-2xl font-black text-slate-900">🖼️ Event & Automotive Galleries</h2>
+          <span class="text-xs font-black px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800">Photo Sets</span>
+        </div>
+        <p class="text-xs text-slate-500 mt-1">Car meets, toddler birthday setups, and community celebration stills.</p>
+      </div>
+      <a href="/galleries" class="text-xs font-bold text-rose-600 hover:text-rose-800 transition">
+        View All Galleries →
+      </a>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      {galleries.map(gallery => (
+        <div class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between group">
+          <div>
+            <a href={`/galleries/${gallery.id}`}>
+              <div class="h-44 bg-slate-100 overflow-hidden">
+                <img src={gallery.data.coverImage} alt={gallery.data.title} class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+              </div>
+            </a>
+            <div class="p-5">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
+                {gallery.data.category}
+              </span>
+              <a href={`/galleries/${gallery.id}`}>
+                <h3 class="text-base font-bold text-slate-900 mt-2 group-hover:text-rose-600 transition">{gallery.data.title}</h3>
+              </a>
+            </div>
+          </div>
+          <div class="p-5 pt-0 border-t border-slate-100 pt-3">
+            <a href={`/galleries/${gallery.id}`} class="text-xs font-bold text-rose-600 hover:underline">
+              View Album ({gallery.data.photos?.length || 0} Photos) →
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- SECTION 4: 🎈 VEGAS PARTY PIXIES -->
   <section id="parties" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="text-center max-w-2xl mx-auto mb-10">
       <span class="text-xs font-black uppercase tracking-wider text-rose-600">Vegas Party Pixies</span>
@@ -263,7 +309,7 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 4: 📸 EVENT & AUTO PHOTOGRAPHY -->
+  <!-- SECTION 5: 📸 EVENT & AUTO PHOTOGRAPHY -->
   <section id="media" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="text-center max-w-2xl mx-auto mb-10">
       <span class="text-xs font-black uppercase tracking-wider text-slate-700">702 Local Media</span>
@@ -300,7 +346,7 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 5: 📖 LOCAL VEGAS GUIDES -->
+  <!-- SECTION 6: 📖 LOCAL VEGAS GUIDES -->
   <section id="guides" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="flex items-center justify-between pb-6 border-b border-slate-200">
       <div>
@@ -346,7 +392,7 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 6: 🍳 RECIPES & KITCHEN HACKS -->
+  <!-- SECTION 7: 🍳 RECIPES & KITCHEN HACKS -->
   <section id="recipes" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="flex items-center justify-between pb-6 border-b border-slate-200">
       <div>

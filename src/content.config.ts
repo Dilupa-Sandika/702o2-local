@@ -5,12 +5,27 @@ const events = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/events' }),
   schema: z.object({
     title: z.string(),
-    eventDate: z.string(),
+    schedules: z.array(z.object({ day: z.string(), time: z.string() })).optional(),
+    eventDate: z.string().optional(),
     location: z.string(),
+    mapLink: z.string().optional(),
     category: z.string(),
     admission: z.string().optional(),
     link: z.string().optional(),
     image: z.string().optional(),
+    gallery: z.array(z.object({ image: z.string() })).optional(),
+    videoUrl: z.string().optional(),
+  }),
+});
+
+const galleries = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/galleries' }),
+  schema: z.object({
+    title: z.string(),
+    pubDate: z.coerce.date(),
+    category: z.string(),
+    coverImage: z.string(),
+    photos: z.array(z.object({ image: z.string() })).optional(),
   }),
 });
 
@@ -18,11 +33,15 @@ const deals = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/deals' }),
   schema: z.object({
     title: z.string(),
-    pubDate: z.coerce.date(),
     store: z.string(),
+    customStore: z.string().optional(),
+    pubDate: z.coerce.date(),
+    validUntil: z.coerce.date().optional(),
     price: z.string().optional(),
-    link: z.string().optional(),
     image: z.string().optional(),
+    circularPages: z.array(z.object({ image: z.string() })).optional(),
+    circularPdf: z.string().optional(),
+    link: z.string().optional(),
   }),
 });
 
@@ -34,6 +53,9 @@ const guides = defineCollection({
     pubDate: z.coerce.date(),
     image: z.string().optional(),
     excerpt: z.string(),
+    seoDescription: z.string().optional(),
+    seoKeywords: z.string().optional(),
+    videoUrl: z.string().optional(),
   }),
 });
 
@@ -45,7 +67,9 @@ const recipes = defineCollection({
     cost: z.string().optional(),
     pubDate: z.coerce.date(),
     image: z.string().optional(),
+    seoKeywords: z.string().optional(),
+    videoUrl: z.string().optional(),
   }),
 });
 
-export const collections = { events, deals, guides, recipes };
+export const collections = { events, galleries, deals, guides, recipes };
