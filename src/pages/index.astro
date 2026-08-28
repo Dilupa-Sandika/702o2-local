@@ -10,9 +10,9 @@ const recipes = (await getCollection('recipes')).slice(0, 3);
 
 const slides = [
   {
-    image: "https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&w=1000&q=80",
-    badge: "Automotive & Car Meets",
-    title: "Classic & Exotic Car Coverage in Las Vegas"
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80",
+    badge: "Valley Sceneries & Landscapes",
+    title: "Scenic Views, Red Rock & Las Vegas Valley Stills"
   },
   {
     image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1000&q=80",
@@ -22,14 +22,14 @@ const slides = [
   {
     image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1000&q=80",
     badge: "Local Festivals & Expos",
-    title: "Weekend Community Events & Food Festivals"
+    title: "Weekend Community Gatherings & Food Festivals"
   }
 ];
 ---
 
 <Layout title="702 Local — Events Calendar, Deals & Event Services">
   
-  <!-- HERO SECTION WITH PROMO BAR & SLIDER -->
+  <!-- HERO SECTION -->
   <section class="py-4 sm:py-8">
     <div class="mb-6 p-3.5 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
       <div class="flex items-center gap-2 text-center sm:text-left">
@@ -56,7 +56,7 @@ const slides = [
         </h1>
 
         <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
-          Your direct portal for weekly happenings, supermarket savings, boutique toddler party rentals, and event photography across Clark County.
+          Your direct portal for weekly happenings, supermarket savings, boutique toddler party rentals, scenic photo galleries, and event coverage across Clark County.
         </p>
 
         <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
@@ -87,7 +87,7 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 1: 📅 UPCOMING EVENTS CALENDAR -->
+  <!-- SECTION 1: 📅 EVENTS -->
   <section id="events" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="flex items-center justify-between pb-6 border-b border-slate-200">
       <div>
@@ -95,7 +95,7 @@ const slides = [
           <h2 class="text-2xl font-black text-slate-900">📅 Upcoming Valley Events</h2>
           <span class="text-xs font-black px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800">Featured</span>
         </div>
-        <p class="text-xs text-slate-500 mt-1">Car meets, food festivals, family expos, and free community gatherings.</p>
+        <p class="text-xs text-slate-500 mt-1">Community festivals, family expos, food markets, and local gatherings.</p>
       </div>
       <a href="/events" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition">
         View All Events ({events.length}+) →
@@ -114,18 +114,11 @@ const slides = [
               )}
             </a>
             <div class="p-5">
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
-                  {event.data.category}
-                </span>
-                {event.data.admission && (
-                  <span class="text-xs font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                    {event.data.admission}
-                  </span>
-                )}
-              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+                {event.data.category}
+              </span>
               <a href={`/events/${event.id}`}>
-                <h3 class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition">{event.data.title}</h3>
+                <h3 class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition mt-2">{event.data.title}</h3>
               </a>
               {event.data.eventDate && (
                 <p class="text-xs text-slate-600 mt-2 font-medium">📅 {event.data.eventDate}</p>
@@ -143,7 +136,7 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 2: 🏷️ VEGAS DEALS & STEALS -->
+  <!-- SECTION 2: 🏷️ DEALS -->
   <section id="deals" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="flex items-center justify-between pb-6 border-b border-slate-200">
       <div>
@@ -170,20 +163,12 @@ const slides = [
               )}
             </a>
             <div class="p-5">
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <span class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
-                  {deal.data.store}
-                </span>
-                {deal.data.price && (
-                  <span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">
-                    {deal.data.price}
-                  </span>
-                )}
-              </div>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+                {deal.data.store}
+              </span>
               <a href={`/deals/${deal.id}`}>
-                <h3 class="text-base font-bold text-slate-900 hover:text-amber-600 transition">{deal.data.title}</h3>
+                <h3 class="text-base font-bold text-slate-900 hover:text-amber-600 transition mt-2">{deal.data.title}</h3>
               </a>
-              <div class="mt-2 text-xs text-slate-600 leading-relaxed line-clamp-2">{deal.body}</div>
             </div>
           </div>
           <div class="p-5 pt-0 border-t border-slate-100 mt-3">
@@ -196,15 +181,15 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 3: 🖼️ EVENT & AUTO GALLERIES -->
+  <!-- SECTION 3: 🖼️ VEGAS SIGHTS & EVENT GALLERIES (Updated Header) -->
   <section id="galleries" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="flex items-center justify-between pb-6 border-b border-slate-200">
       <div>
         <div class="flex items-center gap-2">
-          <h2 class="text-2xl font-black text-slate-900">🖼️ Event & Automotive Galleries</h2>
+          <h2 class="text-2xl font-black text-slate-900">🖼️ Vegas Sights & Event Galleries</h2>
           <span class="text-xs font-black px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800">Photo Sets</span>
         </div>
-        <p class="text-xs text-slate-500 mt-1">Car meets, toddler birthday setups, and community celebration stills.</p>
+        <p class="text-xs text-slate-500 mt-1">Valley landscapes, local attractions, toddler birthday setups, and community festival stills.</p>
       </div>
       <a href="/galleries" class="text-xs font-bold text-rose-600 hover:text-rose-800 transition">
         View All Galleries →
@@ -239,12 +224,11 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 4: 🎈 VEGAS PARTY PIXIES -->
+  <!-- SECTION 4: 🎈 PARTIES -->
   <section id="parties" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="text-center max-w-2xl mx-auto mb-10">
       <span class="text-xs font-black uppercase tracking-wider text-rose-600">Vegas Party Pixies</span>
       <h2 class="text-3xl font-black text-slate-900 mt-1">🎈 Toddler Birthday Packages & Rentals</h2>
-      <p class="text-xs text-slate-500 mt-2">Delivered, styled, and packed away across Las Vegas, Henderson & Summerlin.</p>
     </div>
 
     <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -255,33 +239,19 @@ const slides = [
             <h3 class="text-xl font-black text-slate-900">Sweet & Simple</h3>
             <span class="text-2xl font-black text-rose-600">$199</span>
           </div>
-          <ul class="space-y-2 text-xs text-slate-600 font-medium">
-            <li>✨ 1 Themed Arched Backdrop</li>
-            <li>🎈 6ft Balloon Garland Accent</li>
-            <li>🪑 3 Kids Tables + 15-18 Chairs</li>
-            <li>🚚 Full Delivery, Setup & Pickup</li>
-          </ul>
         </div>
         <a href="/party-rentals#inquiry" class="mt-6 block text-center py-2.5 rounded-xl bg-rose-50 text-rose-700 font-bold text-xs hover:bg-rose-100 transition">
           Book Silver ($199) →
         </a>
       </div>
 
-      <div class="bg-white rounded-3xl border-2 border-rose-500 p-6 shadow-lg flex flex-col justify-between relative">
-        <span class="absolute -top-3 right-6 bg-rose-500 text-white px-3 py-0.5 rounded-full text-[10px] font-black uppercase">Most Popular</span>
+      <div class="bg-white rounded-3xl border-2 border-rose-500 p-6 shadow-lg flex flex-col justify-between">
         <div>
           <span class="bg-rose-50 text-rose-700 px-3 py-1 rounded-full text-xs font-black">Golden Sparkle</span>
           <div class="flex justify-between items-baseline my-3">
             <h3 class="text-xl font-black text-slate-900">Toddler Luxe</h3>
             <span class="text-2xl font-black text-rose-600">$299</span>
           </div>
-          <ul class="space-y-2 text-xs text-slate-600 font-medium">
-            <li>✨ 1 Large Themed Backdrop + Custom Name</li>
-            <li>🎈 Full 10ft Organic Luxe Balloon Arch</li>
-            <li>🪑 5 Kids Tables + 25-30 Chairs</li>
-            <li>🎂 1 Cake / Dessert Plinth Stand</li>
-            <li>🚚 Complete Delivery & Teardown</li>
-          </ul>
         </div>
         <a href="/party-rentals#inquiry" class="mt-6 block text-center py-2.5 rounded-xl bg-rose-600 text-white font-bold text-xs hover:bg-rose-700 shadow-md transition">
           Book Golden ($299) →
@@ -295,12 +265,6 @@ const slides = [
             <h3 class="text-xl font-black text-slate-900">Grand Setup</h3>
             <span class="text-2xl font-black text-rose-600">$449</span>
           </div>
-          <ul class="space-y-2 text-xs text-slate-600 font-medium">
-            <li>✨ Multi-Panel Backdrop Set + Neon Light</li>
-            <li>🎈 Double Organic Balloon Arch</li>
-            <li>🪑 7-8 Tables + 35-40 Chairs + Covers</li>
-            <li>🎂 Complete 3-Piece Plinth Set</li>
-          </ul>
         </div>
         <a href="/party-rentals#inquiry" class="mt-6 block text-center py-2.5 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition">
           Book Diamond ($449) →
@@ -309,52 +273,60 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 5: 📸 EVENT & AUTO PHOTOGRAPHY -->
+  <!-- SECTION 5: 📸 MEDIA -->
   <section id="media" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="text-center max-w-2xl mx-auto mb-10">
       <span class="text-xs font-black uppercase tracking-wider text-slate-700">702 Local Media</span>
-      <h2 class="text-3xl font-black text-slate-900 mt-1">📸 Event & Auto Photography Coverage</h2>
-      <p class="text-xs text-slate-500 mt-2">Professional high-res photography and 4K social reels for car meets and celebrations.</p>
+      <h2 class="text-3xl font-black text-slate-900 mt-1">📸 Celebration & Event Photo Coverage</h2>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-      <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+    <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-baseline mb-2">
-            <h3 class="text-xl font-black text-slate-900">2-Hour Event Coverage</h3>
-            <span class="text-2xl font-black text-slate-900">$199</span>
+            <h3 class="text-lg font-black text-slate-900">2-Hour Coverage</h3>
+            <span class="text-xl font-black text-slate-900">$199</span>
           </div>
-          <p class="text-xs text-slate-500 mb-4">40+ edited high-res digital photos, fast 48-hour delivery. ($100/additional hr).</p>
+          <p class="text-xs text-slate-500">40+ high-res stills, 48hr delivery for parties & popups.</p>
         </div>
-        <a href="/media#booking" class="block text-center py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition">
-          Book 2-Hour Shoot ($199) →
+        <a href="/media#booking" class="mt-4 block text-center py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition">
+          Book 2-Hour →
         </a>
       </div>
 
-      <div class="bg-white p-7 rounded-3xl border-2 border-amber-500 shadow-md flex flex-col justify-between">
+      <div class="bg-white p-6 rounded-3xl border-2 border-amber-500 shadow-md flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-baseline mb-2">
-            <h3 class="text-xl font-black text-slate-900">4-Hour Half-Day / Car Feature</h3>
-            <span class="text-2xl font-black text-amber-600">$379</span>
+            <h3 class="text-lg font-black text-slate-900">4-Hour Half-Day</h3>
+            <span class="text-xl font-black text-amber-600">$379</span>
           </div>
-          <p class="text-xs text-slate-500 mb-4">100+ edited photos, 2 vertical 4K highlight reels, full commercial usage rights.</p>
+          <p class="text-xs text-slate-500">100+ photos, 2 vertical 4K reels & commercial rights.</p>
         </div>
-        <a href="/media#booking" class="block text-center py-2.5 bg-amber-500 text-slate-950 text-xs font-black rounded-xl hover:bg-amber-400 transition">
-          Book Half-Day ($379) →
+        <a href="/media#booking" class="mt-4 block text-center py-2.5 bg-amber-500 text-slate-950 text-xs font-black rounded-xl hover:bg-amber-400 transition">
+          Book Half-Day →
+        </a>
+      </div>
+
+      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-baseline mb-2">
+            <h3 class="text-lg font-black text-slate-900">Custom Coverage</h3>
+            <span class="text-xl font-black text-slate-900">Custom</span>
+          </div>
+          <p class="text-xs text-slate-500">Full-day festivals, multi-location milestones & corporate shoots.</p>
+        </div>
+        <a href="/media#booking" class="mt-4 block text-center py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition">
+          Request Quote →
         </a>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 6: 📖 LOCAL VEGAS GUIDES -->
+  <!-- SECTION 6: 📖 GUIDES -->
   <section id="guides" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="flex items-center justify-between pb-6 border-b border-slate-200">
       <div>
-        <div class="flex items-center gap-2">
-          <h2 class="text-2xl font-black text-slate-900">📖 Vegas Local Guides</h2>
-          <span class="text-xs font-black px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Best-of Vegas</span>
-        </div>
-        <p class="text-xs text-slate-500 mt-1">Curated local recommendations, food discoveries, and consumer reports.</p>
+        <h2 class="text-2xl font-black text-slate-900">📖 Vegas Local Guides</h2>
       </div>
       <a href="/guides" class="text-xs font-bold text-emerald-700 hover:text-emerald-900 transition">
         View All Guides →
@@ -377,9 +349,8 @@ const slides = [
                 {guide.data.category}
               </span>
               <a href={`/guides/${guide.id}`}>
-                <h3 class="text-base font-bold text-slate-900 mt-2 hover:text-emerald-600 transition line-clamp-2">{guide.data.title}</h3>
+                <h3 class="text-base font-bold text-slate-900 mt-2 hover:text-emerald-600 transition">{guide.data.title}</h3>
               </a>
-              <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">{guide.data.excerpt}</p>
             </div>
           </div>
           <div class="p-5 pt-0 border-t border-slate-100 pt-3">
@@ -392,15 +363,11 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 7: 🍳 RECIPES & KITCHEN HACKS -->
+  <!-- SECTION 7: 🍳 RECIPES -->
   <section id="recipes" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="flex items-center justify-between pb-6 border-b border-slate-200">
       <div>
-        <div class="flex items-center gap-2">
-          <h2 class="text-2xl font-black text-slate-900">🍳 Budget Recipes & Kitchen Hacks</h2>
-          <span class="text-xs font-black px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-800">Under $10</span>
-        </div>
-        <p class="text-xs text-slate-500 mt-1">Quick meals made from weekly valley supermarket deals.</p>
+        <h2 class="text-2xl font-black text-slate-900">🍳 Budget Recipes & Kitchen Hacks</h2>
       </div>
       <a href="/recipes" class="text-xs font-bold text-orange-700 hover:text-orange-900 transition">
         View All Recipes →
@@ -419,25 +386,17 @@ const slides = [
               )}
             </a>
             <div class="p-5">
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">
-                  ⏱️ {recipe.data.time}
-                </span>
-                {recipe.data.cost && (
-                  <span class="text-xs font-black text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                    💰 {recipe.data.cost}
-                  </span>
-                )}
-              </div>
+              <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">
+                ⏱️ {recipe.data.time}
+              </span>
               <a href={`/recipes/${recipe.id}`}>
-                <h3 class="text-base font-bold text-slate-900 hover:text-orange-600 transition line-clamp-1">{recipe.data.title}</h3>
+                <h3 class="text-base font-bold text-slate-900 hover:text-orange-600 transition mt-2">{recipe.data.title}</h3>
               </a>
-              <div class="mt-2 text-xs text-slate-600 line-clamp-2">{recipe.body}</div>
             </div>
           </div>
           <div class="p-5 pt-0 border-t border-slate-100 pt-3">
             <a href={`/recipes/${recipe.id}`} class="text-xs font-bold text-orange-600 hover:underline">
-              View Ingredients & Steps →
+              View Recipe →
             </a>
           </div>
         </div>

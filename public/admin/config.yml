@@ -15,7 +15,7 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Event Title", name: "title", widget: "string" }
-      - label: "Event Schedules (Multi-Day or Single)"
+      - label: "Event Schedules"
         name: "schedules"
         widget: "list"
         required: false
@@ -30,22 +30,22 @@ collections:
       - { label: "Event Poster / Image", name: "image", widget: "image", required: false }
       - { label: "Full Event Description", name: "body", widget: "markdown" }
 
-  # 2. Event Photo Galleries (Re-added & Cleaned)
+  # 2. Local Sights, Landscapes & Event Galleries
   - name: "galleries"
-    label: "🖼️ Event Photo Galleries"
+    label: "🖼️ Vegas Sights & Event Galleries"
     folder: "src/content/galleries"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Gallery Title", name: "title", widget: "string" }
-      - { label: "Event Date", name: "pubDate", widget: "datetime" }
-      - { label: "Category", name: "category", widget: "select", options: ["Kids Parties & Backdrops", "Community Festivals", "Local Gatherings", "Private Celebrations"] }
+      - { label: "Captured Date", name: "pubDate", widget: "datetime" }
+      - { label: "Category", name: "category", widget: "select", options: ["Vegas Sights & Landscapes", "Community Festivals", "Kids Parties & Setups", "Local Gatherings & Markets"] }
       - { label: "Cover Photo", name: "coverImage", widget: "image" }
-      - label: "Photo Set (Multiple Uploads)"
+      - label: "Photo Set (Upload Multiple)"
         name: "photos"
         widget: "list"
         field: { label: "Photo", name: "image", widget: "image" }
-      - { label: "Gallery Highlights / Notes", name: "body", widget: "markdown" }
+      - { label: "Story / Location Notes", name: "body", widget: "markdown" }
 
   # 3. Deals & Steals
   - name: "deals"
