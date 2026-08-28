@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 const events = (await getCollection('events')).slice(0, 3);
 const deals = (await getCollection('deals')).slice(0, 3);
 const galleries = (await getCollection('galleries')).slice(0, 3);
+const mediaPackages = (await getCollection('mediaPackages')).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
 const guides = (await getCollection('guides')).slice(0, 3);
 const recipes = (await getCollection('recipes')).slice(0, 3);
 
@@ -181,7 +182,7 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 3: 🖼️ VEGAS SIGHTS & EVENT GALLERIES (Updated Header) -->
+  <!-- SECTION 3: 🖼️ GALLERIES -->
   <section id="galleries" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="flex items-center justify-between pb-6 border-b border-slate-200">
       <div>
@@ -273,7 +274,7 @@ const slides = [
     </div>
   </section>
 
-  <!-- SECTION 5: 📸 MEDIA -->
+  <!-- SECTION 5: 📸 MEDIA (DYNAMIC PACKAGES) -->
   <section id="media" class="py-12 border-t border-slate-200 scroll-mt-20">
     <div class="text-center max-w-2xl mx-auto mb-10">
       <span class="text-xs font-black uppercase tracking-wider text-slate-700">702 Local Media</span>
@@ -281,44 +282,20 @@ const slides = [
     </div>
 
     <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
-        <div>
-          <div class="flex justify-between items-baseline mb-2">
-            <h3 class="text-lg font-black text-slate-900">2-Hour Coverage</h3>
-            <span class="text-xl font-black text-slate-900">$199</span>
+      {mediaPackages.map(pkg => (
+        <div class={`bg-white p-6 rounded-3xl border ${pkg.data.isFeatured ? 'border-2 border-amber-500 shadow-md' : 'border-slate-200 shadow-sm'} flex flex-col justify-between`}>
+          <div>
+            <div class="flex justify-between items-baseline mb-2">
+              <h3 class="text-lg font-black text-slate-900">{pkg.data.title}</h3>
+              <span class={`text-xl font-black ${pkg.data.isFeatured ? 'text-amber-600' : 'text-slate-900'}`}>{pkg.data.price}</span>
+            </div>
+            <p class="text-xs text-slate-500">{pkg.data.description}</p>
           </div>
-          <p class="text-xs text-slate-500">40+ high-res stills, 48hr delivery for parties & popups.</p>
+          <a href="/media#booking" class={`mt-4 block text-center py-2.5 text-xs font-bold rounded-xl transition ${pkg.data.isFeatured ? 'bg-amber-500 text-slate-950 font-black hover:bg-amber-400' : 'bg-slate-900 text-white hover:bg-slate-800'}`}>
+            {pkg.data.buttonText}
+          </a>
         </div>
-        <a href="/media#booking" class="mt-4 block text-center py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition">
-          Book 2-Hour →
-        </a>
-      </div>
-
-      <div class="bg-white p-6 rounded-3xl border-2 border-amber-500 shadow-md flex flex-col justify-between">
-        <div>
-          <div class="flex justify-between items-baseline mb-2">
-            <h3 class="text-lg font-black text-slate-900">4-Hour Half-Day</h3>
-            <span class="text-xl font-black text-amber-600">$379</span>
-          </div>
-          <p class="text-xs text-slate-500">100+ photos, 2 vertical 4K reels & commercial rights.</p>
-        </div>
-        <a href="/media#booking" class="mt-4 block text-center py-2.5 bg-amber-500 text-slate-950 text-xs font-black rounded-xl hover:bg-amber-400 transition">
-          Book Half-Day →
-        </a>
-      </div>
-
-      <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between">
-        <div>
-          <div class="flex justify-between items-baseline mb-2">
-            <h3 class="text-lg font-black text-slate-900">Custom Coverage</h3>
-            <span class="text-xl font-black text-slate-900">Custom</span>
-          </div>
-          <p class="text-xs text-slate-500">Full-day festivals, multi-location milestones & corporate shoots.</p>
-        </div>
-        <a href="/media#booking" class="mt-4 block text-center py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition">
-          Request Quote →
-        </a>
-      </div>
+      ))}
     </div>
   </section>
 

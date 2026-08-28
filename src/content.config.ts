@@ -13,8 +13,6 @@ const events = defineCollection({
     admission: z.string().optional(),
     link: z.string().optional(),
     image: z.string().optional(),
-    gallery: z.array(z.object({ image: z.string() })).optional(),
-    videoUrl: z.string().optional(),
   }),
 });
 
@@ -29,18 +27,28 @@ const galleries = defineCollection({
   }),
 });
 
+const mediaPackages = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/media-packages' }),
+  schema: z.object({
+    title: z.string(),
+    price: z.string(),
+    description: z.string(),
+    features: z.array(z.string()),
+    buttonText: z.string().default('Book Package →'),
+    isFeatured: z.boolean().default(false),
+    order: z.number().default(1),
+  }),
+});
+
 const deals = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/deals' }),
   schema: z.object({
     title: z.string(),
     store: z.string(),
-    customStore: z.string().optional(),
     pubDate: z.coerce.date(),
     validUntil: z.coerce.date().optional(),
     price: z.string().optional(),
     image: z.string().optional(),
-    circularPages: z.array(z.object({ image: z.string() })).optional(),
-    circularPdf: z.string().optional(),
     link: z.string().optional(),
   }),
 });
@@ -53,9 +61,6 @@ const guides = defineCollection({
     pubDate: z.coerce.date(),
     image: z.string().optional(),
     excerpt: z.string(),
-    seoDescription: z.string().optional(),
-    seoKeywords: z.string().optional(),
-    videoUrl: z.string().optional(),
   }),
 });
 
@@ -67,9 +72,7 @@ const recipes = defineCollection({
     cost: z.string().optional(),
     pubDate: z.coerce.date(),
     image: z.string().optional(),
-    seoKeywords: z.string().optional(),
-    videoUrl: z.string().optional(),
   }),
 });
 
-export const collections = { events, galleries, deals, guides, recipes };
+export const collections = { events, galleries, mediaPackages, deals, guides, recipes };
