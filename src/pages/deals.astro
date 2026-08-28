@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const deals = await getCollection('deals');
+---
+
+<Layout title="Las Vegas Weekly Supermarket Deals & Steals">
+  <section class="text-center pt-4 pb-10">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-xs font-bold text-amber-800 mb-6">
+      <span>🏷️</span> All Verified Vegas Valley Deals
+    </div>
+    <h1 class="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight">
+      Weekly Supermarket <br />
+      <span class="bg-gradient-to-r from-amber-500 to-rose-500 bg-clip-text text-transparent">Deals & Markdowns</span>
+    </h1>
+  </section>
+
+  <section class="py-8 border-t border-slate-200">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {deals.map(deal => (
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition overflow-hidden flex flex-col justify-between">
+          <div>
+            <a href={`/deals/${deal.id}`}>
+              {deal.data.image && (
+                <div class="h-48 overflow-hidden bg-slate-100">
+                  <img src={deal.data.image} alt={deal.data.title} class="w-full h-full object-cover" />
+                </div>
+              )}
+            </a>
+            <div class="p-6">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+                {deal.data.store}
+              </span>
+              <a href={`/deals/${deal.id}`}>
+                <h3 class="text-lg font-bold text-slate-900 mt-2 hover:text-amber-600 transition">{deal.data.title}</h3>
+              </a>
+              <p class="mt-2 text-xs text-slate-600 line-clamp-2">{deal.body}</p>
+            </div>
+          </div>
+          <div class="p-6 pt-0 border-t border-slate-100 pt-3">
+            <a href={`/deals/${deal.id}`} class="text-xs font-bold text-amber-700 hover:underline">
+              View Deal Details →
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>

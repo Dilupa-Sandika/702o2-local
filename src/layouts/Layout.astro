@@ -12,15 +12,15 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | 702 Local — Las Vegas</title>
     
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
       body { font-family: 'Plus Jakarta Sans', sans-serif; }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 
-    <!-- Netlify Identity Widget for Decap CMS Login Redirect -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script>
       declare global {
@@ -41,48 +41,51 @@ const { title } = Astro.props;
   </head>
   <body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased selection:bg-amber-400 selection:text-black">
     
-    <!-- Top Header -->
+    <!-- Sticky Header with Smooth Scroll Anchors -->
     <header class="border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-50 shadow-xs">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
-        
-        <!-- Brand Logo -->
-        <a href="/" class="flex items-center gap-2.5 group">
-          <div class="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center font-black text-slate-950 text-lg shadow-sm">
-            702
-          </div>
-          <div>
-            <span class="text-xl font-extrabold tracking-tight text-slate-900 block leading-none">LOCAL<span class="text-amber-500">.</span></span>
-            <span class="text-[10px] tracking-widest text-slate-500 font-bold uppercase">Vegas Valley Hub</span>
-          </div>
-        </a>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="h-16 flex items-center justify-between gap-4">
+          
+          <a href="/" class="flex items-center gap-2 group shrink-0">
+            <div class="w-9 h-9 rounded-xl bg-amber-500 flex items-center justify-center font-black text-slate-950 text-base shadow-sm">
+              702
+            </div>
+            <div>
+              <span class="text-lg font-extrabold tracking-tight text-slate-900 leading-none block">LOCAL<span class="text-amber-500">.</span></span>
+              <span class="text-[9px] tracking-wider text-slate-500 font-bold uppercase block">Vegas Valley</span>
+            </div>
+          </a>
 
-        <!-- Main Navigation -->
-        <nav class="hidden md:flex items-center gap-7 text-sm font-bold text-slate-600">
-          <a href="/events" class="hover:text-indigo-600 transition flex items-center gap-1.5 text-indigo-600 font-extrabold">
-            <span>📅</span> Events Calendar
-          </a>
-          <a href="/#deals" class="hover:text-amber-600 transition flex items-center gap-1.5">
-            <span>🏷️</span> Vegas Deals
-          </a>
-          <a href="/party-rentals" class="hover:text-rose-600 transition flex items-center gap-1.5 text-rose-600 font-extrabold">
-            <span>🎈</span> Kids Party Setups
-          </a>
-          <a href="/media" class="hover:text-slate-900 transition flex items-center gap-1.5">
-            <span>📸</span> Event & Auto Media
-          </a>
-        </nav>
+          <!-- Quick Navigation to Homepage Sections -->
+          <nav class="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 text-xs font-bold whitespace-nowrap">
+            <a href="/#events" class="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 transition flex items-center gap-1 text-slate-700">
+              <span>📅</span> Events
+            </a>
+            <a href="/#deals" class="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-700 transition flex items-center gap-1 text-slate-700">
+              <span>🏷️</span> Deals
+            </a>
+            <a href="/#parties" class="px-3 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-700 transition flex items-center gap-1">
+              <span>🎈</span> Parties
+            </a>
+            <a href="/#media" class="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 hover:text-slate-900 transition flex items-center gap-1 text-slate-700">
+              <span>📸</span> Media
+            </a>
+            <a href="/#guides" class="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 transition flex items-center gap-1 text-slate-700">
+              <span>📖</span> Guides
+            </a>
+            <a href="/#recipes" class="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-orange-50 hover:text-orange-700 transition flex items-center gap-1 text-slate-700">
+              <span>🍳</span> Recipes
+            </a>
+          </nav>
 
-        <!-- CTA Action -->
-        <div class="flex items-center gap-3">
-          <a href="/party-rentals" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-sm transition">
-            Book Party Setup ✨
+          <a href="/party-rentals" class="hidden sm:inline-flex px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-xs transition shrink-0">
+            Book Party ✨
           </a>
         </div>
       </div>
     </header>
 
-    <!-- Dynamic Main Content -->
-    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 w-full">
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full">
       <slot />
     </main>
 
@@ -90,8 +93,8 @@ const { title } = Astro.props;
     <footer class="border-t border-slate-200 bg-white py-10 text-slate-500 text-sm mt-12">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
         <div>
-          <p class="font-bold text-slate-900">702 Local — Las Vegas Valley Media & Services</p>
-          <p class="text-xs text-slate-500 mt-0.5">Events, Local Deals, Photography & Vegas Party Pixies Rentals</p>
+          <p class="font-bold text-slate-900">702 Local — Vegas Valley Hub</p>
+          <p class="text-xs text-slate-500 mt-0.5">Community Events, Deals, Consumer Reports, Recipes & Event Services</p>
         </div>
         <div class="flex items-center gap-6 text-xs font-semibold text-slate-500">
           <a href="/privacy" class="hover:text-slate-900 transition">Privacy Policy</a>

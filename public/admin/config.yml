@@ -1,29 +1,13 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: Dilupa-Sandika/702o2-local
   branch: main
-
-# Local test කරනවා නම් මේක පාවිච්චි කරන්න පුළුවන් (npx decap-server එක්ක)
-local_backend: true
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  # 1. Local Deals & Steals (Grocery, Supermarkets, Retail)
-  - name: "deals"
-    label: "🏷️ Vegas Deals & Steals"
-    folder: "src/content/deals"
-    create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    fields:
-      - { label: "Deal Title", name: "title", widget: "string" }
-      - { label: "Store / Supermarket", name: "store", widget: "string" }
-      - { label: "Price / Offer Tag", name: "price", widget: "string", required: false }
-      - { label: "Deal Date", name: "pubDate", widget: "datetime" }
-      - { label: "Featured Image", name: "image", widget: "image", required: false }
-      - { label: "Deal Breakdown / Details", name: "body", widget: "markdown" }
-
-  # 2. Las Vegas Local Events Calendar
+  # 1. Events Calendar
   - name: "events"
     label: "📅 Vegas Events Calendar"
     folder: "src/content/events"
@@ -35,6 +19,49 @@ collections:
       - { label: "Venue / Location", name: "location", widget: "string" }
       - { label: "Category", name: "category", widget: "select", options: ["Family & Kids", "Car Shows & Expos", "Food & Festivals", "Nightlife & Music", "Free Community Events"] }
       - { label: "Admission / Ticket", name: "admission", widget: "string", default: "Free Entry" }
-      - { label: "Official Link / Source", name: "link", widget: "string", required: false }
+      - { label: "Official Link / Tickets", name: "link", widget: "string", required: false }
       - { label: "Event Poster / Image", name: "image", widget: "image", required: false }
       - { label: "Full Event Description", name: "body", widget: "markdown" }
+
+  # 2. Deals & Steals
+  - name: "deals"
+    label: "🏷️ Vegas Deals & Steals"
+    folder: "src/content/deals"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Deal Title", name: "title", widget: "string" }
+      - { label: "Store / Platform", name: "store", widget: "string" }
+      - { label: "Price / Offer Tag", name: "price", widget: "string", required: false }
+      - { label: "Deal Date", name: "pubDate", widget: "datetime" }
+      - { label: "Deal Link / Affiliate URL", name: "link", widget: "string", required: false }
+      - { label: "Featured Image", name: "image", widget: "image", required: false }
+      - { label: "Deal Breakdown / Details", name: "body", widget: "markdown" }
+
+  # 3. Local Guides & Consumer Reports
+  - name: "guides"
+    label: "📖 Guides & Consumer Reports"
+    folder: "src/content/guides"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Article Title", name: "title", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["Best of Vegas", "Consumer Reports & Hacks", "Walmart & Amazon Guides", "Food & Dining", "Family Living"] }
+      - { label: "Published Date", name: "pubDate", widget: "datetime" }
+      - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "Short Excerpt", name: "excerpt", widget: "string" }
+      - { label: "Full Article Content (Markdown / Links)", name: "body", widget: "markdown" }
+
+  # 4. Budget Recipes & Kitchen Hacks
+  - name: "recipes"
+    label: "🍳 Budget Recipes & Kitchen"
+    folder: "src/content/recipes"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Recipe Title", name: "title", widget: "string" }
+      - { label: "Prep / Cook Time", name: "time", widget: "string", default: "20 Mins" }
+      - { label: "Cost Per Serving", name: "cost", widget: "string", default: "Under $5" }
+      - { label: "Published Date", name: "pubDate", widget: "datetime" }
+      - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "Ingredients & Instructions", name: "body", widget: "markdown" }

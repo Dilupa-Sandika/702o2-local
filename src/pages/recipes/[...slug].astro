@@ -1,0 +1,48 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const recipes = await getCollection('recipes');
+  return recipes.map(recipe => ({
+    params: { slug: recipe.id },
+    props: { recipe },
+  }));
+}
+
+const { recipe } = Astro.props;
+const { Content } = await render(recipe);
+---
+
+<Layout title={`${recipe.data.title} | Budget Recipes`}>
+  <article class="max-w-3xl mx-auto py-8">
+    <a href="/#recipes" class="text-xs font-bold text-slate-500 hover:text-orange-600 mb-6 inline-flex items-center gap-1">
+      ← Back to Recipes
+    </a>
+
+    {recipe.data.image && (
+      <div class="h-72 sm:h-96 w-full rounded-3xl overflow-hidden bg-slate-100 mb-8 border border-slate-200">
+        <img src={recipe.data.image} alt={recipe.data.title} class="w-full h-full object-cover" />
+      </div>
+    )}
+
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+        ⏱️ Prep/Cook: {recipe.data.time}
+      </span>
+      {recipe.data.cost && (
+        <span class="text-xs font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+          💰 {recipe.data.cost}
+        </span>
+      )}
+    </div>
+
+    <h1 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight mb-6">
+      {recipe.data.title}
+    </h1>
+
+    <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base space-y-4">
+      <Content />
+    </div>
+  </article>
+</Layout>

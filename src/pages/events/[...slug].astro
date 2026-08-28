@@ -15,39 +15,35 @@ const { Content } = await render(event);
 ---
 
 <Layout title={`${event.data.title} | Vegas Events`}>
-  <article class="max-w-4xl mx-auto py-8">
+  <article class="max-w-3xl mx-auto py-8">
     <a href="/events" class="text-xs font-bold text-slate-500 hover:text-indigo-600 mb-6 inline-flex items-center gap-1">
-      ← Back to All Events
+      ← Back to Events Calendar
     </a>
 
     {event.data.image && (
-      <div class="h-72 sm:h-96 w-full rounded-3xl overflow-hidden bg-slate-100 mb-8 border border-slate-200">
+      <div class="w-full h-72 sm:h-96 rounded-3xl overflow-hidden bg-slate-100 mb-8 border border-slate-200">
         <img src={event.data.image} alt={event.data.title} class="w-full h-full object-cover" />
       </div>
     )}
 
-    <div class="flex flex-wrap items-center gap-3 mb-4">
+    <div class="flex flex-wrap items-center gap-2 mb-4">
       <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
         {event.data.category}
       </span>
       {event.data.admission && (
-        <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span class="text-xs font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
           {event.data.admission}
         </span>
       )}
     </div>
 
-    <h1 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight mb-6">
+    <h1 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight mb-4">
       {event.data.title}
     </h1>
 
-    <div class="p-5 rounded-2xl bg-slate-100 border border-slate-200 grid sm:grid-cols-2 gap-4 mb-8 text-sm">
-      <div class="flex items-center gap-2.5 font-semibold text-slate-800">
-        <span class="text-lg">📅</span> {event.data.eventDate}
-      </div>
-      <div class="flex items-center gap-2.5 font-semibold text-slate-800">
-        <span class="text-lg">📍</span> {event.data.location}
-      </div>
+    <div class="bg-slate-100 p-4 rounded-2xl mb-8 space-y-1.5 text-xs text-slate-700 font-medium border border-slate-200">
+      <p>📅 <strong>Date & Time:</strong> {event.data.eventDate}</p>
+      <p>📍 <strong>Location:</strong> {event.data.location}</p>
     </div>
 
     <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base space-y-4 mb-8">
@@ -56,8 +52,8 @@ const { Content } = await render(event);
 
     {event.data.link && (
       <div class="pt-6 border-t border-slate-200">
-        <a href={event.data.link} target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-sm shadow-md transition">
-          Visit Official Event / Buy Tickets →
+        <a href={event.data.link} target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-xl text-sm shadow-md transition">
+          Official Event Info & Tickets →
         </a>
       </div>
     )}

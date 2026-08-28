@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const guides = await getCollection('guides');
+---
+
+<Layout title="Las Vegas Local Guides & Smart Consumer Reports">
+  <section class="text-center pt-4 pb-10">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 mb-6">
+      <span>📖</span> Curated Vegas Living & Shopping Intelligence
+    </div>
+
+    <h1 class="text-4xl sm:text-6xl font-black text-slate-900 tracking-tight leading-[1.1] max-w-4xl mx-auto">
+      Local Guides, Food Finds & <br />
+      <span class="bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 bg-clip-text text-transparent">
+        Consumer Buying Reports
+      </span>
+    </h1>
+
+    <p class="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg mt-5 leading-relaxed">
+      In-depth recommendations for the best restaurants in town, Walmart/Amazon money-saving hacks, and smart shopper breakdowns.
+    </p>
+  </section>
+
+  <!-- Guides Grid with Clickable Cards -->
+  <section class="py-8 border-t border-slate-200">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {guides.map(guide => (
+        <article class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group">
+          <div>
+            <a href={`/guides/${guide.id}`}>
+              {guide.data.image && (
+                <div class="h-48 overflow-hidden bg-slate-100">
+                  <img src={guide.data.image} alt={guide.data.title} class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                </div>
+              )}
+            </a>
+            <div class="p-6">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                {guide.data.category}
+              </span>
+              <a href={`/guides/${guide.id}`}>
+                <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition mt-3">
+                  {guide.data.title}
+                </h3>
+              </a>
+              <p class="mt-3 text-xs text-slate-600 leading-relaxed">
+                {guide.data.excerpt}
+              </p>
+            </div>
+          </div>
+          <div class="p-6 pt-0 border-t border-slate-100 mt-4">
+            <a href={`/guides/${guide.id}`} class="text-xs font-bold text-emerald-600 hover:underline inline-block pt-2">
+              Read Full Article & Recommendations →
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

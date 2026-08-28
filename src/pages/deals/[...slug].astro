@@ -1,0 +1,56 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const deals = await getCollection('deals');
+  return deals.map(deal => ({
+    params: { slug: deal.id },
+    props: { deal },
+  }));
+}
+
+const { deal } = Astro.props;
+const { Content } = await render(deal);
+---
+
+<Layout title={`${deal.data.title} | Vegas Deals`}>
+  <article class="max-w-3xl mx-auto py-8">
+    <a href="/#deals" class="text-xs font-bold text-slate-500 hover:text-amber-600 mb-6 inline-flex items-center gap-1">
+      ← Back to Vegas Deals
+    </a>
+
+    {deal.data.image && (
+      <div class="w-full rounded-3xl overflow-hidden bg-slate-100 mb-8 border border-slate-200">
+        <img src={deal.data.image} alt={deal.data.title} class="w-full h-auto object-cover" />
+      </div>
+    )}
+
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-xs font-bold px-3 py-1 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+        {deal.data.store}
+      </span>
+      {deal.data.price && (
+        <span class="text-sm font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+          {deal.data.price}
+        </span>
+      )}
+    </div>
+
+    <h1 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight mb-6">
+      {deal.data.title}
+    </h1>
+
+    <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base space-y-4 mb-8">
+      <Content />
+    </div>
+
+    {deal.data.link && (
+      <div class="pt-6 border-t border-slate-200">
+        <a href={deal.data.link} target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-sm shadow-md transition">
+          View Circular / Claim Deal →
+        </a>
+      </div>
+    )}
+  </article>
+</Layout>

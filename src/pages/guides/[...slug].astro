@@ -1,0 +1,41 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map(guide => ({
+    params: { slug: guide.id },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+---
+
+<Layout title={`${guide.data.title} | Vegas Guides`}>
+  <article class="max-w-3xl mx-auto py-8">
+    <a href="/#guides" class="text-xs font-bold text-slate-500 hover:text-emerald-600 mb-6 inline-flex items-center gap-1">
+      ← Back to Local Guides
+    </a>
+
+    {guide.data.image && (
+      <div class="h-72 sm:h-96 w-full rounded-3xl overflow-hidden bg-slate-100 mb-8 border border-slate-200">
+        <img src={guide.data.image} alt={guide.data.title} class="w-full h-full object-cover" />
+      </div>
+    )}
+
+    <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 inline-block mb-4">
+      {guide.data.category}
+    </span>
+
+    <h1 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight mb-6">
+      {guide.data.title}
+    </h1>
+
+    <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base space-y-4">
+      <Content />
+    </div>
+  </article>
+</Layout>
