@@ -2,6 +2,7 @@ backend:
   name: github
   repo: Dilupa-Sandika/702o2-local
   branch: main
+  auth_type: implicit
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
