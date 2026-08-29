@@ -12,7 +12,7 @@ collections:
     label: "📅 Vegas Events Calendar"
     folder: "src/content/events"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}-{{hour}}{{minute}}{{second}}"
     fields:
       - { label: "Event Title", name: "title", widget: "string" }
       - label: "Event Schedules (Pick Dates & Times)"
@@ -22,7 +22,7 @@ collections:
         fields:
           - { label: "Event Start Date & Time", name: "startDateTime", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "hh:mm A", format: "YYYY-MM-DDTHH:mm" }
           - { label: "Event End Date & Time", name: "endDateTime", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "hh:mm A", format: "YYYY-MM-DDTHH:mm", required: false }
-          - { label: "Custom Note / Timing Text (Optional)", name: "timeNote", widget: "string", required: false, placeholder: "e.g. 3:00 PM – 8:00 PM (Gates open at 2 PM)" }
+          - { label: "Custom Note / Timing Text (Optional)", name: "timeNote", widget: "string", required: false, placeholder: "e.g. Every Saturday • 9:00 AM – 2:00 PM" }
       - { label: "Venue / Location", name: "location", widget: "string" }
       - { label: "Google Maps Link", name: "mapLink", widget: "string", required: false }
       - { label: "Category", name: "category", widget: "select", options: ["Family & Kids", "Community Festivals", "Food & Markets", "Nightlife & Music", "Free Community Events"] }
@@ -36,7 +36,7 @@ collections:
     label: "🖼️ Vegas Sights & Event Galleries"
     folder: "src/content/galleries"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}-{{hour}}{{minute}}{{second}}"
     fields:
       - { label: "Gallery Title", name: "title", widget: "string" }
       - { label: "Captured Date", name: "pubDate", widget: "datetime" }
@@ -71,7 +71,7 @@ collections:
     label: "🏷️ Vegas Deals & Steals"
     folder: "src/content/deals"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}-{{hour}}{{minute}}{{second}}"
     fields:
       - { label: "Deal Title", name: "title", widget: "string" }
       - { label: "Store / Platform", name: "store", widget: "select", options: ["La Bonita", "Mariana's Supermarket", "Smith's", "Walmart", "Trader Joe's", "Costco", "Amazon", "Local Retail / Other"] }
