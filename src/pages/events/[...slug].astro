@@ -15,14 +15,14 @@ const { Content } = await render(event);
 ---
 
 <Layout title={`${event.data.title} | Vegas Events`}>
-  <article class="max-w-3xl mx-auto py-8">
+  <article class="max-w-4xl mx-auto py-8">
     <a href="/events" class="text-xs font-bold text-slate-500 hover:text-indigo-600 mb-6 inline-flex items-center gap-1">
       ← Back to Events Calendar
     </a>
 
     {event.data.image && (
-      <div class="w-full h-72 sm:h-96 rounded-3xl overflow-hidden bg-slate-100 mb-8 border border-slate-200">
-        <img src={event.data.image} alt={event.data.title} class="w-full h-full object-cover" />
+      <div class="w-full rounded-3xl overflow-hidden bg-slate-100 mb-8 border border-slate-200">
+        <img src={event.data.image} alt={event.data.title} class="w-full h-auto max-h-[500px] object-cover" />
       </div>
     )}
 
@@ -37,23 +37,42 @@ const { Content } = await render(event);
       )}
     </div>
 
-    <h1 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight mb-4">
+    <h1 class="text-3xl sm:text-5xl font-black text-slate-900 leading-tight mb-6">
       {event.data.title}
     </h1>
 
-    <div class="bg-slate-100 p-4 rounded-2xl mb-8 space-y-1.5 text-xs text-slate-700 font-medium border border-slate-200">
-      <p>📅 <strong>Date & Time:</strong> {event.data.eventDate}</p>
-      <p>📍 <strong>Location:</strong> {event.data.location}</p>
+    <!-- Schedule Box -->
+    <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200 mb-8">
+      <h2 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-3">Event Date & Location</h2>
+      <div class="space-y-2 text-xs text-slate-700 font-medium">
+        {event.data.schedules && event.data.schedules.length > 0 ? (
+          event.data.schedules.map((sch: any) => (
+            <div class="flex items-center gap-2">
+              <span>🗓️</span> <strong>{sch.day || sch.startDateTime || 'Schedule'}:</strong> {sch.timeNote || sch.time || ''}
+            </div>
+          ))
+        ) : (
+          <div class="flex items-center gap-2">
+            <span>🗓️</span> <strong>Date & Time:</strong> {event.data.eventDate || 'Check Description'}
+          </div>
+        )}
+        <div class="flex items-center gap-2 pt-1">
+          <span>📍</span> <strong>Venue:</strong> {event.data.location}
+          {event.data.mapLink && (
+            <a href={event.data.mapLink} target="_blank" rel="noopener noreferrer" class="text-indigo-600 underline font-bold ml-1">Open Maps ↗</a>
+          )}
+        </div>
+      </div>
     </div>
 
-    <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base space-y-4 mb-8">
+    <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base mb-8">
       <Content />
     </div>
 
     {event.data.link && (
       <div class="pt-6 border-t border-slate-200">
-        <a href={event.data.link} target="_blank" rel="noopener noreferrer" class="inline-block px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-xl text-sm shadow-md transition">
-          Official Event Info & Tickets →
+        <a href={event.data.link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-xl text-sm shadow-md transition">
+          Official Event Page / RSVP →
         </a>
       </div>
     )}
