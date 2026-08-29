@@ -20,70 +20,85 @@ const events = await getCollection('events');
     </h1>
 
     <p class="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg mt-5 leading-relaxed">
-      Your curated weekend calendar for family festivals, community markets, car meets, and local expos around the valley.
+      Your curated weekend calendar for family festivals, community markets, food expos, and local gatherings around the valley.
     </p>
   </section>
 
   <!-- Events Grid -->
   <section class="py-8 border-t border-slate-200">
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      {events.map(event => (
-        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group">
-          <div>
-            <a href={`/events/${event.id}`}>
-              {event.data.image ? (
-                <div class="h-48 overflow-hidden bg-slate-100">
-                  <img src={event.data.image} alt={event.data.title} class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
-                </div>
-              ) : (
-                <div class="h-24 bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-xl">
-                  702 EVENT
-                </div>
-              )}
-            </a>
+    {events.length === 0 ? (
+      <div class="text-center py-12 text-slate-500 text-sm">No events found. Add new events via CMS Admin.</div>
+    ) : (
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {events.map(event => {
+          let timingText = event.data.eventDate || '';
+          if (!timingText && event.data.schedules && event.data.schedules.length > 0) {
+            const firstSch = event.data.schedules[0];
+            timingText = firstSch.timeNote || firstSch.day || firstSch.startDateTime || 'See details';
+          }
+          if (!timingText) timingText = 'Check Event Schedule';
 
-            <div class="p-6">
-              <div class="flex items-center justify-between gap-2 mb-3">
-                <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
-                  {event.data.category}
-                </span>
-                {event.data.admission && (
-                  <span class="text-xs font-black text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                    {event.data.admission}
-                  </span>
-                )}
+          return (
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group">
+              <div>
+                <a href={`/events/${event.id}`}>
+                  {event.data.image ? (
+                    <div class="h-48 overflow-hidden bg-slate-100">
+                      <img src={event.data.image} alt={event.data.title} class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                    </div>
+                  ) : (
+                    <div class="h-48 bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-xl">
+                      702 EVENT
+                    </div>
+                  )}
+                </a>
+
+                <div class="p-6">
+                  <div class="flex items-center justify-between gap-2 mb-3">
+                    <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+                      {event.data.category}
+                    </span>
+                    {event.data.admission && (
+                      <span class="text-xs font-black text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                        {event.data.admission}
+                      </span>
+                    )}
+                  </div>
+
+                  <a href={`/events/${event.id}`}>
+                    <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition line-clamp-2">
+                      {event.data.title}
+                    </h3>
+                  </a>
+
+                  <div class="mt-3 space-y-1 text-xs text-slate-600 font-medium">
+                    <p class="flex items-center gap-1.5 text-slate-900 font-bold">
+                      <span>📅</span> {timingText}
+                    </p>
+                    <p class="flex items-center gap-1.5 line-clamp-1">
+                      <span>📍</span> {event.data.location}
+                    </p>
+                  </div>
+
+                  <!-- Brief summary -->
+                  {event.body && (
+                    <p class="mt-3 text-xs text-slate-500 line-clamp-2 border-t border-slate-100 pt-3">
+                      {event.body}
+                    </p>
+                  )}
+                </div>
               </div>
 
-              <a href={`/events/${event.id}`}>
-                <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition line-clamp-2">
-                  {event.data.title}
-                </h3>
-              </a>
-
-              <div class="mt-3 space-y-1 text-xs text-slate-600 font-medium">
-                <p class="flex items-center gap-1.5 text-slate-900 font-bold">
-                  <span>📅</span> {event.data.eventDate}
-                </p>
-                <p class="flex items-center gap-1.5 line-clamp-1">
-                  <span>📍</span> {event.data.location}
-                </p>
+              <div class="p-6 pt-0">
+                <a href={`/events/${event.id}`} class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition shadow-sm">
+                  View Full Details →
+                </a>
               </div>
-
-              <!-- Brief summary -->
-              <p class="mt-3 text-xs text-slate-500 line-clamp-2 border-t border-slate-100 pt-3">
-                {event.body}
-              </p>
             </div>
-          </div>
-
-          <div class="p-6 pt-0">
-            <a href={`/events/${event.id}`} class="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition shadow-sm">
-              View Full Details →
-            </a>
-          </div>
-        </div>
-      ))}
-    </div>
+          );
+        })}
+      </div>
+    )}
   </section>
 
 </Layout>
