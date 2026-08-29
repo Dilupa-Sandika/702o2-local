@@ -7,7 +7,7 @@ media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  # 1. Events Calendar
+  # 1. 📅 EVENTS CALENDAR
   - name: "events"
     label: "📅 Vegas Events Calendar"
     folder: "src/content/events"
@@ -15,13 +15,14 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Event Title", name: "title", widget: "string" }
-      - label: "Event Schedules"
+      - label: "Event Schedules (Pick Dates & Times)"
         name: "schedules"
         widget: "list"
         required: false
         fields:
-          - { label: "Day / Date Label", name: "day", widget: "string" }
-          - { label: "Hours / Time Window", name: "time", widget: "string" }
+          - { label: "Event Start Date & Time", name: "startDateTime", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "hh:mm A", format: "YYYY-MM-DDTHH:mm" }
+          - { label: "Event End Date & Time", name: "endDateTime", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "hh:mm A", format: "YYYY-MM-DDTHH:mm", required: false }
+          - { label: "Custom Note / Timing Text (Optional)", name: "timeNote", widget: "string", required: false, placeholder: "e.g. 3:00 PM – 8:00 PM (Gates open at 2 PM)" }
       - { label: "Venue / Location", name: "location", widget: "string" }
       - { label: "Google Maps Link", name: "mapLink", widget: "string", required: false }
       - { label: "Category", name: "category", widget: "select", options: ["Family & Kids", "Community Festivals", "Food & Markets", "Nightlife & Music", "Free Community Events"] }
@@ -30,7 +31,7 @@ collections:
       - { label: "Event Poster / Image", name: "image", widget: "image", required: false }
       - { label: "Full Event Description", name: "body", widget: "markdown" }
 
-  # 2. Local Sights & Event Galleries
+  # 2. 🖼️ LOCAL SIGHTS & EVENT GALLERIES
   - name: "galleries"
     label: "🖼️ Vegas Sights & Event Galleries"
     folder: "src/content/galleries"
@@ -47,15 +48,15 @@ collections:
         field: { label: "Photo", name: "image", widget: "image" }
       - { label: "Story / Location Notes", name: "body", widget: "markdown" }
 
-  # 3. Media Photography Packages
+  # 3. 📸 MEDIA PHOTOGRAPHY PACKAGES
   - name: "mediaPackages"
     label: "📸 Media Photography Packages"
     folder: "src/content/media-packages"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Package Title", name: "title", widget: "string" }
-      - { label: "Price / Tag", name: "price", widget: "string" }
+      - { label: "Package Title", name: "title", widget: "string", placeholder: "e.g. 2-Hour Event Coverage" }
+      - { label: "Price / Tag", name: "price", widget: "string", placeholder: "e.g. $199 or Custom" }
       - { label: "Display Order", name: "order", widget: "number", default: 1 }
       - { label: "Highlight as Most Popular?", name: "isFeatured", widget: "boolean", default: false }
       - { label: "Short Description", name: "description", widget: "string" }
@@ -65,7 +66,7 @@ collections:
         field: { label: "Feature item", name: "feature", widget: "string" }
       - { label: "Button Text", name: "buttonText", widget: "string", default: "Book Now →" }
 
-  # 4. Deals & Steals (With Circular PDF Viewer)
+  # 4. 🏷️ DEALS & STEALS
   - name: "deals"
     label: "🏷️ Vegas Deals & Steals"
     folder: "src/content/deals"
@@ -87,7 +88,7 @@ collections:
       - { label: "Official Store Link", name: "link", widget: "string", required: false }
       - { label: "Deal Breakdown / Details", name: "body", widget: "markdown" }
 
-  # 5. Local Guides & Consumer Reports
+  # 5. 📖 LOCAL GUIDES & CONSUMER REPORTS
   - name: "guides"
     label: "📖 Guides & Consumer Reports"
     folder: "src/content/guides"
@@ -102,7 +103,7 @@ collections:
       - { label: "SEO Keywords", name: "seoKeywords", widget: "string", required: false }
       - { label: "Full Article Content", name: "body", widget: "markdown" }
 
-  # 6. Budget Recipes & Kitchen Hacks
+  # 6. 🍳 BUDGET RECIPES & KITCHEN HACKS
   - name: "recipes"
     label: "🍳 Budget Recipes & Kitchen"
     folder: "src/content/recipes"
