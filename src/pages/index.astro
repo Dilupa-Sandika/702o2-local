@@ -9,6 +9,22 @@ const mediaPackages = (await getCollection('mediaPackages')).sort((a, b) => a.da
 const guides = (await getCollection('guides')).slice(0, 3);
 const recipes = (await getCollection('recipes')).slice(0, 3);
 
+// Clean Date Formatting Helper
+function formatCleanDate(dateVal: any) {
+  if (!dateVal) return '';
+  const d = new Date(dateVal);
+  if (isNaN(d.getTime())) {
+    return String(dateVal).split('T')[0];
+  }
+  return d.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC'
+  });
+}
+
 const slides = [
   {
     image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80",
@@ -104,36 +120,64 @@ const slides = [
     </div>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-      {events.map(event => (
-        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition flex flex-col justify-between group overflow-hidden">
-          <div>
-            <a href={`/events/${event.id}`}>
-              {event.data.image && (
-                <div class="h-44 bg-slate-100 overflow-hidden">
-                  <img src={event.data.image} alt={event.data.title} class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
-                </div>
-              )}
-            </a>
-            <div class="p-5">
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
-                {event.data.category}
-              </span>
+      {events.map(event => {
+        let timingText = '';
+        if (event.data.schedules && event.data.schedules.length > 0) {
+          const sch = event.data.schedules[0];
+          const datePart = formatCleanDate(sch.eventDate || sch.day);
+          const timePart = sch.startTime ? (sch.endTime ? `${sch.startTime} – ${sch.endTime}` : sch.startTime) : (sch.time || sch.timeNote || '');
+          timingText = datePart && timePart ? `${datePart} • ${timePart}` : (datePart || timePart);
+        }
+        if (!timingText) {
+          timingText = event.data.legacyDate || event.data.eventDate || 'See details for timings';
+        }
+
+        return (
+          <div class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition flex flex-col justify-between group overflow-hidden">
+            <div>
               <a href={`/events/${event.id}`}>
-                <h3 class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition mt-2">{event.data.title}</h3>
+                {event.data.image ? (
+                  <div class="h-44 bg-slate-100 overflow-hidden">
+                    <img src={event.data.image} alt={event.data.title} class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                  </div>
+                ) : (
+                  <div class="h-44 bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-xl">
+                    702 EVENT
+                  </div>
+                )}
               </a>
-              {event.data.eventDate && (
-                <p class="text-xs text-slate-600 mt-2 font-medium">📅 {event.data.eventDate}</p>
-              )}
-              <p class="text-xs text-slate-500 mt-1 line-clamp-1">📍 {event.data.location}</p>
+              <div class="p-5">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+                    {event.data.category}
+                  </span>
+                  {event.data.admission && (
+                    <span class="text-[10px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      {event.data.admission}
+                    </span>
+                  )}
+                </div>
+
+                <a href={`/events/${event.id}`}>
+                  <h3 class="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition mt-1 line-clamp-2">{event.data.title}</h3>
+                </a>
+
+                <p class="text-xs text-slate-900 mt-2 font-bold flex items-center gap-1.5">
+                  <span>📅</span> {timingText}
+                </p>
+                <p class="text-xs text-slate-500 mt-1 line-clamp-1 flex items-center gap-1.5">
+                  <span>📍</span> {event.data.location}
+                </p>
+              </div>
+            </div>
+            <div class="p-5 pt-0">
+              <a href={`/events/${event.id}`} class="block text-center w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition">
+                View Full Details →
+              </a>
             </div>
           </div>
-          <div class="p-5 pt-0">
-            <a href={`/events/${event.id}`} class="block text-center w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition">
-              View Full Details →
-            </a>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </section>
 
