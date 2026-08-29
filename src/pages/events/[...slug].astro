@@ -14,7 +14,7 @@ const { event } = Astro.props;
 const { Content } = await render(event);
 ---
 
-<Layout title={`${event.data.title} | Vegas Events`}>
+<Layout title={`${event.data.title} | Vegas Events Calendar`}>
   <article class="max-w-4xl mx-auto py-8">
     <a href="/events" class="text-xs font-bold text-slate-500 hover:text-indigo-600 mb-6 inline-flex items-center gap-1">
       ← Back to Events Calendar
@@ -41,30 +41,52 @@ const { Content } = await render(event);
       {event.data.title}
     </h1>
 
-    <!-- Schedule Box -->
+    <!-- Daily Schedules Box -->
     <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200 mb-8">
-      <h2 class="text-sm font-black text-slate-900 uppercase tracking-wider mb-3">Event Date & Location</h2>
-      <div class="space-y-2 text-xs text-slate-700 font-medium">
+      <h2 class="text-xs font-black text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-1.5">
+        <span>🗓️</span> Event Schedule & Timing
+      </h2>
+      
+      <div class="space-y-3 text-xs text-slate-700 font-medium">
         {event.data.schedules && event.data.schedules.length > 0 ? (
-          event.data.schedules.map((sch: any) => (
-            <div class="flex items-center gap-2">
-              <span>🗓️</span> <strong>{sch.day || sch.startDateTime || 'Schedule'}:</strong> {sch.timeNote || sch.time || ''}
-            </div>
-          ))
+          <div class="divide-y divide-slate-200">
+            {event.data.schedules.map((sch: any) => {
+              const timeDisplay = sch.startTime 
+                ? (sch.endTime ? `${sch.startTime} – ${sch.endTime}` : sch.startTime)
+                : (sch.time || sch.timeNote || '');
+              
+              return (
+                <div class="py-2.5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                  <div class="font-bold text-slate-900 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+                    <span>{sch.eventDate || sch.day || 'Date'}</span>
+                    {sch.label && <span class="text-[10px] font-semibold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">({sch.label})</span>}
+                  </div>
+                  <div class="text-slate-700 sm:text-right font-semibold">
+                    ⏰ {timeDisplay}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         ) : (
-          <div class="flex items-center gap-2">
-            <span>🗓️</span> <strong>Date & Time:</strong> {event.data.eventDate || 'Check Description'}
+          <div class="flex items-center gap-2 text-slate-900 font-bold">
+            <span>⏰</span> {event.data.legacyDate || event.data.eventDate || 'Check event description below'}
           </div>
         )}
-        <div class="flex items-center gap-2 pt-1">
+
+        <div class="flex items-center gap-2 pt-3 border-t border-slate-200 text-slate-800">
           <span>📍</span> <strong>Venue:</strong> {event.data.location}
           {event.data.mapLink && (
-            <a href={event.data.mapLink} target="_blank" rel="noopener noreferrer" class="text-indigo-600 underline font-bold ml-1">Open Maps ↗</a>
+            <a href={event.data.mapLink} target="_blank" rel="noopener noreferrer" class="text-indigo-600 underline font-bold ml-1 hover:text-indigo-800">
+              Open Google Maps ↗
+            </a>
           )}
         </div>
       </div>
     </div>
 
+    <!-- Event Description Content -->
     <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base mb-8">
       <Content />
     </div>

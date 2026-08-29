@@ -15,14 +15,16 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}-{{hour}}{{minute}}{{second}}"
     fields:
       - { label: "Event Title", name: "title", widget: "string" }
-      - label: "Event Schedules (Pick Dates & Times)"
+      - label: "Event Daily Schedules (Add multiple dates if multi-day)"
         name: "schedules"
         widget: "list"
         required: false
         fields:
-          - { label: "Event Start Date & Time", name: "startDateTime", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "hh:mm A", format: "YYYY-MM-DDTHH:mm" }
-          - { label: "Event End Date & Time", name: "endDateTime", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "hh:mm A", format: "YYYY-MM-DDTHH:mm", required: false }
-          - { label: "Custom Note / Timing Text (Optional)", name: "timeNote", widget: "string", required: false, placeholder: "e.g. Every Saturday • 9:00 AM – 2:00 PM" }
+          - { label: "Schedule Date", name: "eventDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+          - { label: "Start Time (From)", name: "startTime", widget: "string", placeholder: "e.g. 09:00 AM" }
+          - { label: "End Time (To)", name: "endTime", widget: "string", placeholder: "e.g. 02:00 PM", required: false }
+          - { label: "Schedule Label / Notes (Optional)", name: "label", widget: "string", required: false, placeholder: "e.g. Day 1: Morning Market or General Admission" }
+      - { label: "Legacy / Fallback Date Text", name: "legacyDate", widget: "string", required: false, placeholder: "e.g. Every Saturday • 9:00 AM – 2:00 PM" }
       - { label: "Venue / Location", name: "location", widget: "string" }
       - { label: "Google Maps Link", name: "mapLink", widget: "string", required: false }
       - { label: "Category", name: "category", widget: "select", options: ["Family & Kids", "Community Festivals", "Food & Markets", "Nightlife & Music", "Free Community Events"] }
