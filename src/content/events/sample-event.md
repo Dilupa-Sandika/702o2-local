@@ -1,6 +1,6 @@
 ---
 eventDate: Every Saturday • 9:00 AM – 2:00 PM
-title: Las Vegas Farmers Market | Downtown Summerlin
+title: Las Vegas Farmers Market | Downtown Summerlin Evening Market
 schedules:
   - timeNote: Every Saturday • 9:00 AM – 2:00 PM
     startDateTime: 2026-08-29T09:00
