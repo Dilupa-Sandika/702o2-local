@@ -12,6 +12,36 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props;
 const { Content } = await render(event);
+
+// Helper to remove GMT timestamp and format cleanly as "Sat, Aug 29, 2026"
+function formatCleanDate(dateVal: any) {
+  if (!dateVal) return '';
+  const rawStr = String(dateVal).trim();
+  // Check if string contains standard YYYY-MM-DD
+  const match = rawStr.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (match) {
+    const [_, y, m, d] = match;
+    const dateObj = new Date(Date.UTC(Number(y), Number(m) - 1, Number(d)));
+    return dateObj.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      timeZone: 'UTC'
+    });
+  }
+  const d = new Date(dateVal);
+  if (!isNaN(d.getTime())) {
+    return d.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      timeZone: 'UTC'
+    });
+  }
+  return rawStr;
+}
 ---
 
 <Layout title={`${event.data.title} | Vegas Events Calendar`}>
@@ -41,7 +71,7 @@ const { Content } = await render(event);
       {event.data.title}
     </h1>
 
-    <!-- Daily Schedules Box -->
+    <!-- Schedule Box (Clean Date & Close Left Alignment) -->
     <div class="bg-slate-100 p-6 rounded-2xl border border-slate-200 mb-8">
       <h2 class="text-xs font-black text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-1.5">
         <span>🗓️</span> Event Schedule & Timing
@@ -49,22 +79,27 @@ const { Content } = await render(event);
       
       <div class="space-y-3 text-xs text-slate-700 font-medium">
         {event.data.schedules && event.data.schedules.length > 0 ? (
-          <div class="divide-y divide-slate-200">
+          <div class="space-y-2.5">
             {event.data.schedules.map((sch: any) => {
+              const cleanDate = formatCleanDate(sch.eventDate || sch.day);
               const timeDisplay = sch.startTime 
                 ? (sch.endTime ? `${sch.startTime} – ${sch.endTime}` : sch.startTime)
                 : (sch.time || sch.timeNote || '');
               
               return (
-                <div class="py-2.5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                  <div class="font-bold text-slate-900 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
-                    <span>{sch.eventDate || sch.day || 'Date'}</span>
-                    {sch.label && <span class="text-[10px] font-semibold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">({sch.label})</span>}
-                  </div>
-                  <div class="text-slate-700 sm:text-right font-semibold">
-                    ⏰ {timeDisplay}
-                  </div>
+                <div class="flex flex-wrap items-center gap-2.5 py-1">
+                  <span class="w-2 h-2 rounded-full bg-indigo-600 shrink-0"></span>
+                  <span class="font-bold text-slate-900 text-sm">{cleanDate}</span>
+                  {timeDisplay && (
+                    <span class="text-slate-800 bg-white px-3 py-1 rounded-lg border border-slate-200 font-bold inline-flex items-center gap-1 shadow-2xs">
+                      ⏰ {timeDisplay}
+                    </span>
+                  )}
+                  {sch.label && (
+                    <span class="text-[11px] font-semibold text-slate-500 italic">
+                      ({sch.label})
+                    </span>
+                  )}
                 </div>
               );
             })}
@@ -86,7 +121,7 @@ const { Content } = await render(event);
       </div>
     </div>
 
-    <!-- Event Description Content -->
+    <!-- Description -->
     <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base mb-8">
       <Content />
     </div>
